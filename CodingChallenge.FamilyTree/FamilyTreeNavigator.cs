@@ -4,29 +4,24 @@ public class FamilyTreeNavigator
 {
     public string GetBirthMonth(Person person, string descendantName)
     {
-        return GetBirthMonthRecursive(person, descendantName);
+        return BreadthFirstTraversalRecursion(person.Children, descendantName);
     }
-    
-    private string GetBirthMonthRecursive(Person person, string descendantName)
+
+    private string BreadthFirstTraversalRecursion(IEnumerable<Person> children, string descendantName)
     {
-        // Base case: if the current person's name matches the descendant's name
-        if (person.Name.Equals(descendantName, StringComparison.OrdinalIgnoreCase))
+        if (!children.Any() || string.IsNullOrEmpty(descendantName))
         {
-            // Return the birth month from the person's birthday
-            return person.Birthday.ToString("MMMM"); // Returns the full month name
+            return string.Empty;
         }
 
-        // Recursive case: search in the children
-        foreach (var child in person.Children)
+        var result = children.FirstOrDefault(x => string.Equals(x.Name, descendantName, StringComparison.OrdinalIgnoreCase))
+            ?.Birthday.ToString("MMMM") ?? string.Empty;
+
+        if (result == string.Empty)
         {
-            var result = GetBirthMonthRecursive(child, descendantName);
-            if (!string.IsNullOrEmpty(result))
-            {
-                return result; // Return the found birth month
-            }
+            result = BreadthFirstTraversalRecursion(children.SelectMany(x => x.Children), descendantName);
         }
 
-        // If not found, return an empty string
-        return string.Empty;
+        return result;
     }
 }
