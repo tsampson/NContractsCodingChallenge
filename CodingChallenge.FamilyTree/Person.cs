@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace CodingChallenge.FamilyTree;
 
-namespace CodingChallenge.FamilyTree
+public class Person
 {
-    public class Person
-    {
-        public Person()
-        {
-            Descendants = new List<Person>();
-        }
+    public Person() => Children = new List<Person>();
 
-        public string Name { get; set; }
-        public List<Person> Descendants { get; set; }
-        public DateTime Birthday { get; set; }
-    }
+    public string Name { get; set; }
+    public List<Person> Children { get; set; }
+    public DateTime Birthday { get; set; }
 }

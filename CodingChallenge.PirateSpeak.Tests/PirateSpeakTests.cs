@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 
 namespace CodingChallenge.PirateSpeak.Tests
 {
@@ -9,10 +10,10 @@ namespace CodingChallenge.PirateSpeak.Tests
         [TestCase("ainstuomn", new[] { "mountains", "hills", "mesa" }, new[] { "mountains" })]
         [TestCase("oopl", new[] { "donkey", "pool", "horse", "loop" }, new[] { "pool", "loop" })]
         [TestCase("oprst", new[] {"sport", "ports", "ball", "bat", "port"}, new[] {"sport", "ports"})]
-        public void TestPirateVocabulary(string jumble, string[] dictionary, object expectedResult)
+        public void TestPirateVocabulary(string jumble, string[] dictionary, string[] expectedResult)
         {
-            var actualResult = new Solution().GetPossibleWords(jumble, dictionary);
-            Assert.AreEqual(expectedResult,actualResult);
+            var result = new Solution().GetPossibleWords(jumble, dictionary);
+            result.Should().BeEquivalentTo(expectedResult);
         }
     }
 }
