@@ -4,23 +4,32 @@ public class FamilyTreeNavigator
 {
     public string GetBirthMonth(Person person, string descendantName)
     {
-        return BreadthFirstTraversalRecursion(person.Children, descendantName);
+        return BreadthFirstTraversal(person, descendantName);
     }
 
-    private string BreadthFirstTraversalRecursion(IEnumerable<Person> children, string descendantName)
+    private string BreadthFirstTraversal(Person person, string descendantName)
     {
-        if (!children.Any() || string.IsNullOrEmpty(descendantName))
+        if (string.Equals(person.Name, descendantName, StringComparison.OrdinalIgnoreCase))
         {
-            return string.Empty;
+            return person.Birthday.ToString("MMMM");
         }
 
-        var result = children.FirstOrDefault(x => string.Equals(x.Name, descendantName, StringComparison.OrdinalIgnoreCase))
-            ?.Birthday.ToString("MMMM") ?? string.Empty;
+        var childrenToProcess = person.Children as IEnumerable<Person>;
+        var result = string.Empty;
 
-        if (result == string.Empty)
+        do
         {
-            result = BreadthFirstTraversalRecursion(children.SelectMany(x => x.Children), descendantName);
-        }
+            result = childrenToProcess.FirstOrDefault(x => string.Equals(x.Name, descendantName, StringComparison.OrdinalIgnoreCase))
+                ?.Birthday.ToString("MMMM") ?? string.Empty;
+
+            if (result != string.Empty)
+            {
+                break;
+            }
+
+            childrenToProcess = childrenToProcess.SelectMany(x => x.Children);
+
+        } while (childrenToProcess.Any());
 
         return result;
     }
