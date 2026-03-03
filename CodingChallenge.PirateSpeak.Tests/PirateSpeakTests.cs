@@ -1,20 +1,19 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
 
-namespace CodingChallenge.PirateSpeak.Tests
+namespace CodingChallenge.PirateSpeak.Tests;
+
+public class PirateSpeakTests
 {
-    public class PirateSpeakTests
+    [TestCase("trisf", new []{"first"}, new[] {"first"})]
+    [TestCase("oob", new[] {"bob", "baobob"},new string[0])]
+    [TestCase("ainstuomn", new[] { "mountains", "hills", "mesa" }, new[] { "mountains" })]
+    [TestCase("oopl", new[] { "donkey", "pool", "horse", "loop" }, new[] { "pool", "loop" })]
+    [TestCase("oprst", new[] {"sport", "ports", "ball", "bat", "port"}, new[] {"sport", "ports"})]
+    public void TestPirateVocabulary(string jumble, string[] dictionary, string[] expectedResult)
     {
-        [TestCase("trisf", new []{"first"}, new[] {"first"})]
-        [TestCase("oob", new[] {"bob", "baobob"},new string[0])]
-        [TestCase("ainstuomn", new[] { "mountains", "hills", "mesa" }, new[] { "mountains" })]
-        [TestCase("oopl", new[] { "donkey", "pool", "horse", "loop" }, new[] { "pool", "loop" })]
-        [TestCase("oprst", new[] {"sport", "ports", "ball", "bat", "port"}, new[] {"sport", "ports"})]
-        public void TestPirateVocabulary(string jumble, string[] dictionary, string[] expectedResult)
-        {
-            var result = new Solution().GetPossibleWords(jumble, dictionary);
-            result.Should().BeEquivalentTo(expectedResult);
-        }
+        var result = new PirateSpeak().GetPossibleWords(jumble, dictionary);
+        result.Should().BeEquivalentTo(expectedResult);
     }
 }
 
