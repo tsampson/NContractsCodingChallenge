@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TodoList from "./components/todo/TodoList";
 import "./App.scss";
 import './button.scss';
+import TodoService from './TodoService';
 
 class App extends Component {
   constructor(props) {
@@ -16,8 +17,11 @@ class App extends Component {
     this.setState({...this.state, newTodo: e.target.value});
   }
 
-  addNewTodo = () => {
-    console.warn('not implemented');
+  addNewTodo = async () => {
+    if (this.state.newTodo.trim()) {
+      await TodoService.addTodo(this.state.newTodo);
+      this.setState({newTodo: ''});
+    }
   }
 
   render() {
