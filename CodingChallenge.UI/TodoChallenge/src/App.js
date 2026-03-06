@@ -3,6 +3,8 @@ import TodoList from "./components/todo/TodoList";
 import "./App.scss";
 import './button.scss';
 import TodoService from './TodoService';
+import TodoChart from './components/chart/TodoChart';
+import {connect} from 'react-redux';
 
 class App extends Component {
   constructor(props) {
@@ -29,9 +31,15 @@ class App extends Component {
       <div className="App">
         <input type="text" value={this.state.newTodo} onChange={this.textInputChange}></input>
         <button className={"btn--default"} onClick={this.addNewTodo}>Add</button>
+        <TodoChart todos={this.props.todos} />
         <TodoList />
       </div>
-  )}
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  todos: state.todos ?? []
+});
+
+export default connect(mapStateToProps)(App);
