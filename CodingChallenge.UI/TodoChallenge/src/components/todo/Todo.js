@@ -18,7 +18,7 @@ const Todo = (props) => {
 
     const saveText = () => {
         if (!editing) return;
-        props.onTextChange(editingText, props.todo.id);
+        props.onTextChange(editingText, props.todo.id, props.todo);
         toggleEditText();
     };
 
